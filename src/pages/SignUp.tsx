@@ -13,6 +13,7 @@ import Box from "@material-ui/core/Box";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { useHistory } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { useStyles } from "./SignIn";
 import Copyright from "../components/Copyright";
@@ -30,6 +31,10 @@ const SignUp = () => {
 
   return (
     <Container component="main" maxWidth="xs">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Sign Up</title>
+      </Helmet>
       <CssBaseline />
       <Wrapper className={classes.paper}>
         <Avatar className={classes.avatar}>

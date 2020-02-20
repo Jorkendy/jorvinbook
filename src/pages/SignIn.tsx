@@ -12,6 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import { useHistory } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import Copyright from "../components/Copyright";
 import utils from "../utils";
@@ -48,6 +49,10 @@ const SignIn = () => {
 
   return (
     <Container component="main" maxWidth="xs">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Sign In</title>
+      </Helmet>
       <CssBaseline />
       <Wrapper className={classes.paper}>
         <Avatar className={classes.avatar}>
