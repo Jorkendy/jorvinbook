@@ -11,10 +11,14 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
+import { useHistory } from "react-router-dom";
 
 import Copyright from "../components/Copyright";
+import utils from "../utils";
 
-const useStyles = makeStyles(theme => ({
+const { Routes } = utils;
+
+export const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -36,6 +40,11 @@ const useStyles = makeStyles(theme => ({
 
 const SignIn = () => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const _goToSignUp = () => {
+    history.push(Routes.SignUp);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -86,7 +95,7 @@ const SignIn = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link variant="body2" component="span" onClick={_goToSignUp}>
                 Don't have an account? Sign Up
               </Link>
             </Grid>

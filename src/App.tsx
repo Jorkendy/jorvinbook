@@ -5,8 +5,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import utils from "./utils";
 import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
-const { styles, theme: themeObject } = utils;
+const { styles, theme: themeObject, Routes } = utils;
 const { Container } = styles;
 
 const theme = createMuiTheme(themeObject as ThemeOptions);
@@ -17,7 +18,8 @@ const App = () => {
       <Router>
         <Container>
           <Switch>
-            <Route exact path="/sign-in" component={SignIn} />
+            <Route exact path={Routes.SignIn} component={SignIn} />
+            <Route exact path={Routes.SignUp} component={SignUp} />
           </Switch>
         </Container>
       </Router>
