@@ -1,5 +1,4 @@
 import React, { FC, SyntheticEvent } from "react";
-import clsx from 'clsx';
 import styled from "styled-components";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,18 +10,13 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
+import FormHelperText from "@material-ui/core/FormHelperText";
 import { Helmet } from "react-helmet";
 
 import { useStyles } from "../SignIn/SignIn";
 import Copyright from "../../components/Copyright";
 import { withSignUpForm } from "./withSignUpForm";
+import PasswordInput from "../../components/PasswordInput";
 
 export interface SignUpProps {
   firstName: string;
@@ -32,9 +26,7 @@ export interface SignUpProps {
   onChange: (event: SyntheticEvent) => void;
   navigateToSignIn: () => void;
   onSubmit: () => void;
-  showPassword: boolean,
-  onTogglePassword: () => void,
-  handleMouseDownPassword: (event: SyntheticEvent) => void
+  errorMessage: string;
 }
 
 const SignUp: FC<SignUpProps> = ({
@@ -45,9 +37,7 @@ const SignUp: FC<SignUpProps> = ({
   onChange,
   navigateToSignIn,
   onSubmit,
-  showPassword,
-  onTogglePassword,
-  handleMouseDownPassword
+  errorMessage
 }) => {
   const classes = useStyles();
 
@@ -108,40 +98,12 @@ const SignUp: FC<SignUpProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControl
-                className={clsx(classes.margin, classes.textField)}
-                variant="outlined"
-              >
-                <InputLabel htmlFor="outlined-adornment-password">
-                  Password
-                </InputLabel>
-                <OutlinedInput
-                name="password"
-                  id="outlined-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={onChange}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={onTogglePassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? (
-                          <Visibility />
-                        ) : (
-                          <VisibilityOff />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  labelWidth={70}
-                />
-              </FormControl>
+              <PasswordInput password={password} onChange={onChange} />
             </Grid>
           </Grid>
+          {errorMessage ? (
+            <FormHelperText error>{errorMessage}</FormHelperText>
+          ) : null}
           <Button
             type="button"
             fullWidth
