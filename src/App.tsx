@@ -6,8 +6,8 @@ import { Provider } from "react-redux";
 
 import store from "./redux/store";
 import utils from "./utils";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn/SignIn";
+import SignUp from "./pages/SignUp/SignUp";
 import Home from "./pages/Home";
 
 const { styles, theme: themeObject, Routes } = utils;

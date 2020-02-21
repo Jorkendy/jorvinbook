@@ -14,8 +14,8 @@ import Box from "@material-ui/core/Box";
 import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import Copyright from "../components/Copyright";
-import utils from "../utils";
+import Copyright from "../../components/Copyright";
+import utils from "../../utils";
 
 const { Routes } = utils;
 
@@ -36,7 +36,13 @@ export const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
-  }
+  },
+  margin: {
+    // margin: theme.spacing(1),
+  },
+  textField: {
+    width: "100%",
+  },
 }));
 
 const SignIn = () => {
