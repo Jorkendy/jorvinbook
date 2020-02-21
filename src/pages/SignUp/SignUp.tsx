@@ -17,6 +17,7 @@ import { useStyles } from "../SignIn/SignIn";
 import Copyright from "../../components/Copyright";
 import { withSignUpForm } from "./withSignUpForm";
 import PasswordInput from "../../components/PasswordInput";
+import Spinner from "../../components/Spinner";
 
 export interface SignUpProps {
   firstName: string;
@@ -27,6 +28,7 @@ export interface SignUpProps {
   navigateToSignIn: () => void;
   onSubmit: () => void;
   errorMessage: string;
+  isLoading: boolean
 }
 
 const SignUp: FC<SignUpProps> = ({
@@ -37,12 +39,14 @@ const SignUp: FC<SignUpProps> = ({
   onChange,
   navigateToSignIn,
   onSubmit,
-  errorMessage
+  errorMessage,
+  isLoading
 }) => {
   const classes = useStyles();
 
   return (
     <Container component="main" maxWidth="xs">
+      {isLoading ? <Spinner /> : null}
       <Helmet>
         <meta charSet="utf-8" />
         <title>Sign Up</title>

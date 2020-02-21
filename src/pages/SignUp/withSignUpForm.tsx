@@ -1,14 +1,29 @@
 import React, { useState, FC, SyntheticEvent } from "react";
 import get from "lodash/get";
 import { useHistory } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { SignUpProps } from "./SignUp";
+import { SignUpUser } from "../../interfaces/signUpUser.interface";
 import utils from "../../utils";
+import { onSignIn } from "../../redux/actions/signIn.actions";
+
+interface ConnectSignUpForm {
+  onSignIn: (credential: SignUpUser) => void;
+}
 
 const { Routes, validateName, validateEmail, isEmpty } = utils;
+const mapStateToProps = (state: any /*, ownProps*/) => {
+  return {};
+};
+
+const mapDispatchToProps = { onSignIn };
 
 export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
-  return () => {
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(({ onSignIn }: ConnectSignUpForm) => {
     const [form, setForm] = useState({
       firstName: "",
       lastName: "",
@@ -51,6 +66,7 @@ export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
         return;
       } else {
         setErrorMessage("");
+        onSignIn(form);
       }
     };
 
@@ -64,7 +80,8 @@ export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
         navigateToSignIn={_navigateToSignIn}
         onSubmit={_onSubmit}
         errorMessage={errorMessage}
+        isLoading={false}
       />
     );
-  };
+  });
 };
