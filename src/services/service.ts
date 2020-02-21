@@ -13,7 +13,10 @@ const Axios = axios.create({
 
 const service = {
   signUp: (credential: SignUpUser) => Axios.post("/auth/signup", credential),
-  signIn: (credential: BasicUser) => Axios.post("/auth/signin", credential)
+  signIn: (credential: BasicUser) => Axios.post("/auth/signin", credential),
+  saveToken: (token: string) => {
+    localStorage.setItem("token", token);
+  }
 };
 
 export default service;

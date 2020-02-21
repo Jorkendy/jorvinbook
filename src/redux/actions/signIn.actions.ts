@@ -1,18 +1,22 @@
 import { Dispatch } from "redux";
+import get from "lodash/get";
 
 import { SignIn, SignInSuccess, SignInFailure } from "../types";
 import { SignUpUser } from "../../interfaces/signUpUser.interface";
 import service from "../../services/service";
 
-export const onSignIn = (credential: SignUpUser) => {
+export const onSignIn = (credential: SignUpUser, callback: Function) => {
   return async (dispatch: Dispatch) => {
-    console.log(credential);
-    // try {
-    //   dispatch({ type: SignIn });
-    //   const response = await service.signUp(credential);
-    //   console.log(response);
-    // } catch (error) {
-    //   return dispatch({ type: SignInFailure, error });
-    // }
+    try {
+      dispatch({ type: SignIn });
+      const response = await service.signUp(credential);
+      const token = get(response, "data.token", "")
+      service.saveToken(token);
+      callback({ error: false });
+      return dispatch({ type: SignInSuccess })
+    } catch (error) {
+      callback({ error: true })
+      return dispatch({ type: SignInFailure, error });
+    }
   };
 };

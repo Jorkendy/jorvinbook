@@ -9,7 +9,11 @@ import utils from "../../utils";
 import { onSignIn } from "../../redux/actions/signIn.actions";
 
 interface ConnectSignUpForm {
-  onSignIn: (credential: SignUpUser) => void;
+  onSignIn: (credential: SignUpUser, callback: Function) => void;
+}
+
+interface SignUpResponse {
+  error: boolean;
 }
 
 const { Routes, validateName, validateEmail, isEmpty } = utils;
@@ -66,7 +70,14 @@ export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
         return;
       } else {
         setErrorMessage("");
-        onSignIn(form);
+        onSignIn(form, (response: SignUpResponse) => {
+          const { error } = response;
+          if (error) {
+            console.error("Fail");
+          } else {
+            history.push(Routes.Home);
+          }
+        });
       }
     };
 
