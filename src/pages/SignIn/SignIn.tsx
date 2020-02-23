@@ -42,7 +42,7 @@ export const useStyles = makeStyles(theme => ({
   },
   textField: {
     width: "100%",
-  },
+  }
 }));
 
 const SignIn = () => {

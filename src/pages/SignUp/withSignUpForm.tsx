@@ -6,28 +6,34 @@ import { connect } from "react-redux";
 import { SignUpProps } from "./SignUp";
 import { SignUpUser } from "../../interfaces/signUpUser.interface";
 import utils from "../../utils";
-import { onSignIn } from "../../redux/actions/signIn.actions";
+import { onSignUp } from "../../redux/actions/signUp.actions";
+import { reducer } from "../../redux/store";
 
 interface ConnectSignUpForm {
-  onSignIn: (credential: SignUpUser, callback: Function) => void;
+  onSignUp: (credential: SignUpUser, callback: Function) => void;
+  isLoading: boolean;
 }
 
 interface SignUpResponse {
-  error: boolean;
+  errorMessage: string;
 }
 
 const { Routes, validateName, validateEmail, isEmpty } = utils;
-const mapStateToProps = (state: any /*, ownProps*/) => {
-  return {};
+const mapStateToProps = (state: reducer /*, ownProps*/) => {
+  const { signUpReducer } = state;
+
+  return {
+    isLoading: signUpReducer.isLoading
+  };
 };
 
-const mapDispatchToProps = { onSignIn };
+const mapDispatchToProps = { onSignUp };
 
 export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
   return connect(
     mapStateToProps,
     mapDispatchToProps
-  )(({ onSignIn }: ConnectSignUpForm) => {
+  )(({ onSignUp, isLoading }: ConnectSignUpForm) => {
     const [form, setForm] = useState({
       firstName: "",
       lastName: "",
@@ -36,6 +42,7 @@ export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
     });
     const [errorMessage, setErrorMessage] = useState("");
     const history = useHistory();
+    const [open, setOpen] = useState(false);
 
     const _onFormChange = (event: SyntheticEvent) => {
       const field = get(event, "target.name", "default_field");
@@ -64,21 +71,28 @@ export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
       );
     };
 
-    const _onSubmit = () => {
+    const _onSubmit = (event: SyntheticEvent) => {
+      if (event) {
+        event.preventDefault();
+      }
       if (!_validateForm()) {
         setErrorMessage("Please fill all field with valid data");
         return;
       } else {
         setErrorMessage("");
-        onSignIn(form, (response: SignUpResponse) => {
-          const { error } = response;
-          if (error) {
-            console.error("Fail");
-          } else {
-            history.push(Routes.Home);
+        onSignUp(form, (response: SignUpResponse) => {
+          if (response) {
+            setErrorMessage(response.errorMessage)
+            return;
           }
+          setOpen(true);
         });
       }
+    };
+
+    const _onClose = () => {
+      setOpen(false);
+      history.push(Routes.Home);
     };
 
     return (
@@ -91,7 +105,9 @@ export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
         navigateToSignIn={_navigateToSignIn}
         onSubmit={_onSubmit}
         errorMessage={errorMessage}
-        isLoading={false}
+        isLoading={isLoading}
+        open={open}
+        onClose={_onClose}
       />
     );
   });

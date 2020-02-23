@@ -18,6 +18,7 @@ import Copyright from "../../components/Copyright";
 import { withSignUpForm } from "./withSignUpForm";
 import PasswordInput from "../../components/PasswordInput";
 import Spinner from "../../components/Spinner";
+import Dialog from "../../components/ConfirmSignUpDialog";
 
 export interface SignUpProps {
   firstName: string;
@@ -26,9 +27,11 @@ export interface SignUpProps {
   password: string;
   onChange: (event: SyntheticEvent) => void;
   navigateToSignIn: () => void;
-  onSubmit: () => void;
+  onSubmit: (event: SyntheticEvent) => void;
   errorMessage: string;
-  isLoading: boolean
+  isLoading: boolean;
+  open: boolean;
+  onClose: () => void;
 }
 
 const SignUp: FC<SignUpProps> = ({
@@ -40,12 +43,15 @@ const SignUp: FC<SignUpProps> = ({
   navigateToSignIn,
   onSubmit,
   errorMessage,
-  isLoading
+  isLoading,
+  open,
+  onClose
 }) => {
   const classes = useStyles();
 
   return (
     <Container component="main" maxWidth="xs">
+      {open ? <Dialog open={open} onClose={onClose} /> : null}
       {isLoading ? <Spinner /> : null}
       <Helmet>
         <meta charSet="utf-8" />
@@ -59,7 +65,7 @@ const SignUp: FC<SignUpProps> = ({
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -109,7 +115,7 @@ const SignUp: FC<SignUpProps> = ({
             <FormHelperText error>{errorMessage}</FormHelperText>
           ) : null}
           <Button
-            type="button"
+            type="submit"
             fullWidth
             variant="contained"
             color="primary"
