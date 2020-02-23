@@ -9,9 +9,7 @@ export const onSignUp = (credential: SignUpUser, callback: Function) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch({ type: SignUp });
-      const response = await service.signUp(credential);
-      const token = get(response, "data.token", "");
-      service.saveToken(token);
+      await service.signUp(credential);
       callback();
       return dispatch({ type: SignUpSuccess });
     } catch (error) {
