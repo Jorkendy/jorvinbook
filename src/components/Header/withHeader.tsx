@@ -56,6 +56,11 @@ export const withHeader = (WrappedComponent: FC<HeaderProps>) => {
       onSignOut();
     };
 
+    const _goProfile = () => {
+      _onCloseProfileMenu();
+      history.push(Routes.Profile);
+    };
+
     return (
       <WrappedComponent
         isAuthenticated={isAuthenticated}
@@ -66,6 +71,7 @@ export const withHeader = (WrappedComponent: FC<HeaderProps>) => {
         onClose={_onCloseProfileMenu}
         anchor={anchorEl}
         onSignOut={_onSignOut}
+        goProfile={_goProfile}
       />
     );
   });

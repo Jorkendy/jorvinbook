@@ -9,6 +9,7 @@ import { AppProps, history } from "./App";
 interface ConnectApp {
   onVerifyToken: (callback: Function) => void;
   isLoading: boolean;
+  isAuthenticated: boolean;
 }
 
 interface Response {
@@ -19,7 +20,8 @@ const mapStateToProps = (state: reducer /*, ownProps*/) => {
   const { appReducer } = state;
 
   return {
-    isLoading: appReducer.isLoading
+    isLoading: appReducer.isLoading,
+    isAuthenticated: appReducer.isAuthenticated
   };
 };
 
@@ -29,7 +31,7 @@ export const withApp = (WrappedComponent: FC<AppProps>) => {
   return connect(
     mapStateToProps,
     mapDispatchToProps
-  )(({ onVerifyToken, isLoading }: ConnectApp) => {
+  )(({ onVerifyToken, isLoading, isAuthenticated }: ConnectApp) => {
     useEffect(() => {
       const token = localStorage.getItem("token");
       if (token) {
@@ -42,6 +44,11 @@ export const withApp = (WrappedComponent: FC<AppProps>) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return <WrappedComponent isLoading={isLoading} />;
+    return (
+      <WrappedComponent
+        isLoading={isLoading}
+        isAuthenticated={isAuthenticated}
+      />
+    );
   });
 };

@@ -21,6 +21,7 @@ export interface HeaderProps {
   onClose: () => void;
   anchor: null | Element | ((element: Element) => Element);
   onSignOut: () => void;
+  goProfile: () => void;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -88,7 +89,8 @@ const Header: FC<HeaderProps> = ({
   onClose,
   onOpen,
   anchor,
-  onSignOut
+  onSignOut,
+  goProfile
 }) => {
   const classes = useStyles();
 
@@ -118,7 +120,7 @@ const Header: FC<HeaderProps> = ({
           inputProps={{ "aria-label": "search" }}
         />
       </div>
-      {isAuthenticated ? (
+      {isAuthenticated && user ? (
         <Fragment>
           <Avatar onClick={onOpen}>H</Avatar>
           <Menu
@@ -133,7 +135,7 @@ const Header: FC<HeaderProps> = ({
                 Hello, {user.firstName + " " + user.lastName}
               </Typography>
             </MenuItem>
-            <MenuItem onClick={onClose}>Profile</MenuItem>
+            <MenuItem onClick={goProfile}>Profile</MenuItem>
             <MenuItem onClick={onClose}>My account</MenuItem>
             <MenuItem onClick={onSignOut}>Logout</MenuItem>
           </Menu>

@@ -9,10 +9,14 @@ import SignIn from "./pages/SignIn/SignIn";
 import SignUp from "./pages/SignUp/SignUp";
 import Home from "./pages/Home";
 import Spinner from "./components/Spinner";
+import AuthRoute from "./components/AuthRoute";
+import UserProfile from "./pages/UserProfile/UserProfile";
+import Header from "./components/Header/Header";
 import { withApp } from "./withApp";
 
 export interface AppProps {
   isLoading: boolean;
+  isAuthenticated: boolean;
 }
 
 const { styles, theme: themeObject, Routes } = utils;
@@ -20,16 +24,18 @@ const { Container } = styles;
 const theme = createMuiTheme(themeObject as ThemeOptions);
 export const history = createBrowserHistory();
 
-const App: FC<AppProps> = ({ isLoading }) => {
+const App: FC<AppProps> = ({ isLoading, isAuthenticated }) => {
   return (
     <ThemeProvider theme={theme}>
       {isLoading ? <Spinner /> : null}
       <Router history={history}>
         <Container>
+          {isAuthenticated ? <Header /> : null}
           <Switch>
             <Route exact path={Routes.SignIn} component={SignIn} />
             <Route exact path={Routes.SignUp} component={SignUp} />
             <Route exact path={Routes.Home} component={Home} />
+            <AuthRoute exact path={Routes.Profile} component={UserProfile} />
           </Switch>
         </Container>
       </Router>
