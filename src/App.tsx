@@ -29,15 +29,15 @@ const App: FC<AppProps> = ({ isLoading, isAuthenticated }) => {
     <ThemeProvider theme={theme}>
       {isLoading ? <Spinner /> : null}
       <Router history={history}>
-        <Container>
-          {isAuthenticated ? <Header /> : null}
-          <Switch>
-            <Route exact path={Routes.SignIn} component={SignIn} />
-            <Route exact path={Routes.SignUp} component={SignUp} />
+        <Switch>
+          <Route exact path={Routes.SignIn} component={SignIn} />
+          <Route exact path={Routes.SignUp} component={SignUp} />
+          <Container>
+            <Header />
             <Route exact path={Routes.Home} component={Home} />
             <AuthRoute exact path={Routes.Profile} component={UserProfile} />
-          </Switch>
-        </Container>
+          </Container>
+        </Switch>
       </Router>
     </ThemeProvider>
   );
