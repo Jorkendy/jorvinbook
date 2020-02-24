@@ -13,6 +13,7 @@ export const onSignIn = (credential: BasicUser, callback: Function) => {
       const token = get(response, "data.token", "");
       const user = get(response, "data.user", {});
       service.saveToken(token);
+      dispatch({ type: UpdateApp, field: "isAuthenticated", value: true });
       dispatch({ type: UpdateApp, field: "user", value: user });
       callback();
       return dispatch({ type: SignInSuccess });

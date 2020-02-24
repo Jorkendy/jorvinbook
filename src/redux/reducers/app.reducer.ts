@@ -2,7 +2,8 @@ import { Verify, VerifySuccess, VerifyFailure, UpdateApp } from "../types";
 
 const initialState = {
   isLoading: false,
-  user: null
+  user: null,
+  isAuthenticated: !!localStorage.getItem("token")
 };
 
 const appReducer = (state = initialState, action: any) => {

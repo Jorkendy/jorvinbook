@@ -1,4 +1,5 @@
 import axios from "axios";
+import get from "lodash/get";
 
 import config from "../utils/config";
 import { SignUpUser } from "../interfaces/signUpUser.interface";
@@ -31,9 +32,13 @@ Axios.interceptors.response.use(
     return response;
   },
   error => {
-    if (error.response.status === 401 || error.response.status === 403) {
+    if (
+      error.response.status === 401 ||
+      error.response.status === 403 ||
+      get(error, "response.data.code", "") === "auth/argument-error"
+    ) {
       localStorage.clear();
-      history.push(Routes.SignIn)
+      history.push(Routes.SignIn);
     }
     return Promise.reject(error);
   }
@@ -44,6 +49,9 @@ const service = {
   signIn: (credential: BasicUser) => Axios.post("/auth/signin", credential),
   saveToken: (token: string) => {
     localStorage.setItem("token", token);
+  },
+  clearToken: () => {
+    localStorage.removeItem("token");
   },
   verifyToken: () => Axios.get("/auth/verify")
 };
