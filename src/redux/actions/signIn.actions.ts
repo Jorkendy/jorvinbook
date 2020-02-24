@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import get from "lodash/get";
 
-import { SignIn, SignInSuccess, SignInFailure } from "../types";
+import { SignIn, SignInSuccess, SignInFailure, UpdateApp } from "../types";
 import { BasicUser } from "../../interfaces/basicUser.interface";
 import service from "../../services/service";
 
@@ -13,8 +13,9 @@ export const onSignIn = (credential: BasicUser, callback: Function) => {
       const token = get(response, "data.token", "");
       const user = get(response, "data.user", {});
       service.saveToken(token);
+      dispatch({ type: UpdateApp, field: "user", value: user });
       callback();
-      return dispatch({ type: SignInSuccess, user });
+      return dispatch({ type: SignInSuccess });
     } catch (error) {
       callback({
         errorMessage: get(

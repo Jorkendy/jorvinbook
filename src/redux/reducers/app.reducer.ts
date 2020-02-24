@@ -1,32 +1,37 @@
-import { SignIn, SignInSuccess, SignInFailure } from "../types";
+import { Verify, VerifySuccess, VerifyFailure, UpdateApp } from "../types";
 
 const initialState = {
   isLoading: false,
-  isSuccess: null
+  user: null
 };
 
-const signInReducer = (state = initialState, action: any) => {
+const appReducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case SignIn:
+    case Verify:
       return {
         ...state,
         isLoading: true
       };
-    case SignInSuccess:
+    case VerifySuccess:
       return {
         ...state,
         isLoading: false,
         isSuccess: true
       };
-    case SignInFailure:
+    case VerifyFailure:
       return {
         ...state,
         isLoading: false,
         isSuccess: false
+      };
+    case UpdateApp:
+      return {
+        ...state,
+        [action.field]: action.value
       };
     default:
       return state;
   }
 };
 
-export default signInReducer;
+export default appReducer;
