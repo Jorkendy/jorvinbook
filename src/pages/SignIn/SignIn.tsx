@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, SyntheticEvent } from "react";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -11,13 +11,22 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
-import { useHistory } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 import Copyright from "../../components/Copyright";
-import utils from "../../utils";
+import Spinner from "../../components/Spinner";
+import { withSignInForm } from "./withSignInForm";
 
-const { Routes } = utils;
+export interface SignInProps {
+  email: string;
+  password: string;
+  isLoading: boolean;
+  errorMessage: string;
+  navigateToSignUp: () => void;
+  onChange: (event: SyntheticEvent) => void;
+  onSubmit: (event: SyntheticEvent) => void;
+}
 
 export const useStyles = makeStyles(theme => ({
   paper: {
@@ -41,20 +50,24 @@ export const useStyles = makeStyles(theme => ({
     // margin: theme.spacing(1),
   },
   textField: {
-    width: "100%",
+    width: "100%"
   }
 }));
 
-const SignIn = () => {
+const SignIn: FC<SignInProps> = ({
+  email,
+  password,
+  isLoading,
+  errorMessage,
+  onChange,
+  navigateToSignUp,
+  onSubmit
+}) => {
   const classes = useStyles();
-  const history = useHistory();
-
-  const _goToSignUp = () => {
-    history.push(Routes.SignUp);
-  };
 
   return (
     <Container component="main" maxWidth="xs">
+      {isLoading ? <Spinner /> : null}
       <Helmet>
         <meta charSet="utf-8" />
         <title>Sign In</title>
@@ -67,7 +80,7 @@ const SignIn = () => {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -78,6 +91,8 @@ const SignIn = () => {
             name="email"
             autoComplete="email"
             autoFocus
+            value={email}
+            onChange={onChange}
           />
           <TextField
             variant="outlined"
@@ -89,13 +104,19 @@ const SignIn = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
+            onChange={onChange}
           />
+          {errorMessage ? (
+            <FormHelperText error>{errorMessage}</FormHelperText>
+          ) : null}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={onSubmit}
           >
             Sign In
           </Button>
@@ -106,7 +127,7 @@ const SignIn = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link variant="body2" component="span" onClick={_goToSignUp}>
+              <Link variant="body2" component="span" onClick={navigateToSignUp}>
                 Don't have an account? Sign Up
               </Link>
             </Grid>
@@ -120,6 +141,6 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default withSignInForm(SignIn);
 
 const Wrapper = styled.div``;
