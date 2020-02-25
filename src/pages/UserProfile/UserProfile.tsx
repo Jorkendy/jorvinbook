@@ -9,6 +9,11 @@ import MomentUtils from "@date-io/moment";
 import MenuItem from "@material-ui/core/MenuItem";
 import SaveIcon from "@material-ui/icons/Save";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Avatar from "@material-ui/core/Avatar";
+import get from "lodash/get";
+import CardMedia from "@material-ui/core/CardMedia";
+import { Helmet } from "react-helmet";
 
 import GridContainer from "../../components/Grid/GridContainer";
 import GridItem from "../../components/Grid/GridItem";
@@ -17,9 +22,9 @@ import CardHeader from "../../components/Card/CardHeader";
 import CardBody from "../../components/Card/CardBody";
 import CardFooter from "../../components/Card/CardFooter";
 import CardAvatar from "../../components/Card/CardAvatar";
-import defaultAvatar from "../../assets/images/user.jpg";
 import { withUserProfileForm } from "./withUserProfile";
 import Spinner from "../../components/Spinner";
+import { User } from "../../interfaces/user.interface";
 
 export interface UserProfileProps {
   isLoading: boolean;
@@ -33,7 +38,10 @@ export interface UserProfileProps {
   avatarUrl: string | undefined;
   onDateChange: (date: MaterialUiPickersDate) => void;
   onTextFieldChange: (event: SyntheticEvent) => void;
-  file: any
+  errorMessage: string;
+  onSubmit: (event: SyntheticEvent) => void;
+  userDisplay: User;
+  previewUrl?: string;
 }
 
 const useStyles = makeStyles(theme => ({
@@ -76,6 +84,20 @@ const useStyles = makeStyles(theme => ({
   description: {
     lineHeight: "1.5em",
     fontSize: "1.5em"
+  },
+  cardAvatar: {
+    width: "100px",
+    height: "100px",
+    borderRadius: "50%",
+    overflow: "hidden",
+    padding: "0",
+    fontSize: 30
+  },
+  cardMedia: {
+    width: "50%",
+    marginTop: 15,
+    borderRadius: 10,
+    border: "1px solid #ccc"
   }
 }));
 
@@ -91,13 +113,20 @@ const UserProfile: FC<UserProfileProps> = ({
   isLoading,
   onDateChange,
   onTextFieldChange,
-  file
+  errorMessage,
+  onSubmit,
+  userDisplay,
+  previewUrl
 }) => {
   const classes = useStyles();
 
   return (
     <Wrapper>
       {isLoading ? <Spinner /> : null}
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Profile</title>
+      </Helmet>
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <Card>
@@ -106,7 +135,7 @@ const UserProfile: FC<UserProfileProps> = ({
               <p className={classes.cardCategoryWhite}>Complete your profile</p>
             </CardHeader>
             <CardBody>
-              <form className={classes.form} noValidate>
+              <form className={classes.form} noValidate onSubmit={onSubmit}>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={4}>
                     <TextField
@@ -230,7 +259,6 @@ const UserProfile: FC<UserProfileProps> = ({
                       id="file"
                       type="file"
                       name="file"
-                      value={file}
                       onChange={onTextFieldChange}
                     />
                     <label htmlFor="file">
@@ -243,16 +271,29 @@ const UserProfile: FC<UserProfileProps> = ({
                         Upload your avatar
                       </Button>
                     </label>
+                    {previewUrl ? (
+                      <CardMedia
+                        component="img"
+                        alt="Contemplative Reptile"
+                        image={previewUrl}
+                        title="Contemplative Reptile"
+                        className={classes.cardMedia}
+                      />
+                    ) : null}
                   </GridItem>
                 </GridContainer>
               </form>
             </CardBody>
+            {errorMessage ? (
+              <FormHelperText error>{errorMessage}</FormHelperText>
+            ) : null}
             <CardFooter>
               <Button
                 color="primary"
                 variant="contained"
                 startIcon={<SaveIcon />}
                 type="submit"
+                onClick={onSubmit}
               >
                 Update Profile
               </Button>
@@ -262,15 +303,26 @@ const UserProfile: FC<UserProfileProps> = ({
         <GridItem xs={12} sm={12} md={4}>
           <Card>
             <CardAvatar>
-              <img src={defaultAvatar} alt="..." />
+              {userDisplay && userDisplay.avatarUrl ? (
+                <img
+                  src={get(userDisplay, "avatarUrl", "")}
+                  alt={userDisplay.firstName + " " + userDisplay.lastName}
+                />
+              ) : (
+                <Avatar className={classes.cardAvatar}>
+                  {get(userDisplay, "email[0]", "A").toUpperCase()}
+                </Avatar>
+              )}{" "}
             </CardAvatar>
             <CardBody type="center">
               <h6 className={classes.cardBodyCategory}>CEO / CO-FOUNDER</h6>
-              <h4 className={classes.cardBodyTitle}>Alec Thompson</h4>
+              <h4 className={classes.cardBodyTitle}>
+                {get(userDisplay, "firstName", "") +
+                  " " +
+                  get(userDisplay, "lastName", "")}
+              </h4>
               <p className={classes.description}>
-                Don{"'"}t be scared of the truth because we need to restart the
-                human foundation in truth And I love you like Kanye loves Kanye
-                I love Rick Owens’ bed design but the back is...
+                {get(userDisplay, "summary", "") ? summary : "No information"}
               </p>
               <Button color="primary" variant="contained">
                 Follow

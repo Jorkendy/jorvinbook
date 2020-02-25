@@ -6,10 +6,10 @@ import { hexToRgb } from "../../utils/theme";
 
 const useStyles = makeStyles(theme => ({
   cardAvatar: {
-    "&$cardAvatarProfile img": {
-      width: "100%",
-      height: "auto"
-    }
+    // "&$cardAvatarProfile img": {
+    //   width: "100%",
+    //   height: "auto"
+    // }
   },
   cardAvatarProfile: {
     maxWidth: "130px",

@@ -20,6 +20,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
+    "omit-empty": "^1.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.149",
+    "@types/omit-empty": "^1.0.0",
     "@types/react-helmet": "^5.0.15",
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.3",

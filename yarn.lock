@@ -2215,6 +2215,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.28.tgz#3a2b5f8d21f96ace690a8832ae9779114612575f"
   integrity sha512-g73GJYJDXgf0jqg+P9S8h2acWbDXNkoCX8DLtJVu7Fkn788pzQ/oJsrdJz/2JejRf/SjfZaAhsw+3nd1D5EWGg==
 
+"@types/omit-empty@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/omit-empty/-/omit-empty-1.0.0.tgz#87aa562926d2ed317913739173cbc145422753b4"
+  integrity sha512-vzLi+bAKVhpI3URcUEmBmBw9m+MVGi9zaYP/qbb6B6o0SSW3u4HgoS+sWKfmnSEf+LQlDFmjf542yZlY29pf6A==
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
@@ -8515,6 +8520,13 @@ obuf@^1.0.0, obuf@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
+
+omit-empty@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/omit-empty/-/omit-empty-1.0.0.tgz#827ad1fdc569511bb9fb3f038a9171a7f10d9040"
+  integrity sha512-eaWd8kwqDyChgf7IYVyfZf2b9b9JOIhpAow4cegg8CVx29U2mZKgCvpfvOSeJctmRTqjGWTZeO2Us58ebDtQ4A==
+  dependencies:
+    kind-of "^6.0.2"
 
 on-finished@~2.3.0:
   version "2.3.0"

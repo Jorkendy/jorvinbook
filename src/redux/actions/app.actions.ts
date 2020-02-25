@@ -16,6 +16,7 @@ export const onVerifyToken = (callback: Function) => {
       dispatch({ type: UpdateApp, field: "user", value: user });
       return dispatch({ type: VerifySuccess });
     } catch (error) {
+      console.log(error);
       callback({
         errorMessage: get(
           error,

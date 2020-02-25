@@ -1,7 +1,10 @@
 import {
   GetCurrentUser,
   GetCurrentUserSuccess,
-  GetCurrentUserFailure
+  GetCurrentUserFailure,
+  UpdateCurrentUser,
+  UpdateCurrentUserSuccess,
+  UpdateCurrentUserFailure
 } from "../types";
 
 const initialState = {
@@ -13,17 +16,20 @@ const initialState = {
 const userReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case GetCurrentUser:
+    case UpdateCurrentUser:
       return {
         ...state,
         isLoading: true
       };
     case GetCurrentUserSuccess:
+    case UpdateCurrentUserSuccess:
       return {
         ...state,
         isLoading: false,
         user: action.user
       };
     case GetCurrentUserFailure:
+    case UpdateCurrentUserFailure:
       return {
         ...state,
         isLoading: false,

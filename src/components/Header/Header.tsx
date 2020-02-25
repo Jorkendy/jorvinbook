@@ -8,6 +8,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Avatar from "@material-ui/core/Avatar";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import get from "lodash/get";
 
 import { User } from "../../interfaces/user.interface";
 import { withHeader } from "./withHeader";
@@ -122,7 +123,17 @@ const Header: FC<HeaderProps> = ({
       </div>
       {isAuthenticated && user ? (
         <Fragment>
-          <Avatar onClick={onOpen}>H</Avatar>
+          {user.avatarUrl ? (
+            <Avatar
+              onClick={onOpen}
+              src={get(user, "avatarUrl", "")}
+              alt={user.firstName + " " + user.lastName}
+            />
+          ) : (
+            <Avatar onClick={onOpen}>
+              {get(user, "email[0]", "A").toUpperCase()}
+            </Avatar>
+          )}
           <Menu
             id="simple-menu"
             anchorEl={anchor}
