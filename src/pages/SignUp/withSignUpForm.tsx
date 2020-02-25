@@ -71,10 +71,7 @@ export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
       );
     };
 
-    const _onSubmit = (event: SyntheticEvent) => {
-      if (event) {
-        event.preventDefault();
-      }
+    const _onSubmit = () => {
       if (!_validateForm()) {
         setErrorMessage("Please fill all field with valid data");
         return;
@@ -82,7 +79,7 @@ export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
         setErrorMessage("");
         onSignUp(form, (response: SignUpResponse) => {
           if (response) {
-            setErrorMessage(response.errorMessage)
+            setErrorMessage(response.errorMessage);
             return;
           }
           setOpen(true);
@@ -93,6 +90,13 @@ export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
     const _onClose = () => {
       setOpen(false);
       history.push(Routes.Home);
+    };
+
+    const _onKeyDown = (event: SyntheticEvent) => {
+      const isEnterKey = parseInt(get(event, "keyCode", 0), 10) === 13;
+      if (isEnterKey) {
+        _onSubmit();
+      }
     };
 
     return (
@@ -108,6 +112,7 @@ export const withSignUpForm = (WrappedComponent: FC<SignUpProps>) => {
         isLoading={isLoading}
         open={open}
         onClose={_onClose}
+        onKeyDown={_onKeyDown}
       />
     );
   });

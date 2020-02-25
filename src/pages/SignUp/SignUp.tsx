@@ -27,11 +27,12 @@ export interface SignUpProps {
   password: string;
   onChange: (event: SyntheticEvent) => void;
   navigateToSignIn: () => void;
-  onSubmit: (event: SyntheticEvent) => void;
+  onSubmit: () => void;
   errorMessage: string;
   isLoading: boolean;
   open: boolean;
   onClose: () => void;
+  onKeyDown: (event: SyntheticEvent) => void
 }
 
 const SignUp: FC<SignUpProps> = ({
@@ -45,7 +46,8 @@ const SignUp: FC<SignUpProps> = ({
   errorMessage,
   isLoading,
   open,
-  onClose
+  onClose,
+  onKeyDown
 }) => {
   const classes = useStyles();
 
@@ -79,6 +81,7 @@ const SignUp: FC<SignUpProps> = ({
                 autoFocus
                 value={firstName}
                 onChange={onChange}
+                onKeyDown={onKeyDown}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -92,6 +95,7 @@ const SignUp: FC<SignUpProps> = ({
                 autoComplete="lname"
                 value={lastName}
                 onChange={onChange}
+                onKeyDown={onKeyDown}
               />
             </Grid>
             <Grid item xs={12}>
@@ -105,17 +109,22 @@ const SignUp: FC<SignUpProps> = ({
                 autoComplete="email"
                 value={email}
                 onChange={onChange}
+                onKeyDown={onKeyDown}
               />
             </Grid>
             <Grid item xs={12}>
-              <PasswordInput password={password} onChange={onChange} />
+              <PasswordInput
+                password={password}
+                onChange={onChange}
+                onKeyDown={onKeyDown}
+              />
             </Grid>
           </Grid>
           {errorMessage ? (
             <FormHelperText error>{errorMessage}</FormHelperText>
           ) : null}
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
