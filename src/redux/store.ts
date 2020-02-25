@@ -5,6 +5,7 @@ import signUpReducer from "./reducers/signUp.reducer";
 import signInReducer from "./reducers/signIn.reducer";
 import appReducer from "./reducers/app.reducer";
 import documentReducer from "./reducers/document.reducer";
+import userReducer from "./reducers/user.reducer";
 
 const initialState = {};
 
@@ -14,7 +15,8 @@ const reducers = combineReducers({
   signUpReducer,
   signInReducer,
   appReducer,
-  documentReducer
+  documentReducer,
+  userReducer
 });
 
 const composeEnhancers =
@@ -31,6 +33,7 @@ export interface reducer {
   signInReducer: any;
   appReducer: any;
   documentReducer: any;
+  userReducer: any;
 }
 
 export default store;

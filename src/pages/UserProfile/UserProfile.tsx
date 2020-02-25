@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -20,6 +20,18 @@ import CardBody from "../../components/Card/CardBody";
 import CardFooter from "../../components/Card/CardFooter";
 import CardAvatar from "../../components/Card/CardAvatar";
 import defaultAvatar from "../../assets/images/user.jpg";
+import { withUserProfileForm } from "./withUserProfile";
+
+export interface UserProfileProps {
+  firstName: string | undefined;
+  lastName: string | undefined;
+  email: string | undefined;
+  company: string | undefined;
+  birthday: string | undefined;
+  gender: string | undefined;
+  summary: string | undefined;
+  avatarUrl: string | undefined;
+}
 
 const useStyles = makeStyles(theme => ({
   cardCategoryWhite: {
@@ -64,7 +76,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const UserProfile = () => {
+const UserProfile: FC<UserProfileProps> = ({
+  firstName = "",
+  lastName = "",
+  email = "",
+  company = "",
+  birthday = null,
+  gender = "",
+  summary = "",
+  avatarUrl = ""
+}) => {
   const classes = useStyles();
 
   return (
@@ -89,6 +110,7 @@ const UserProfile = () => {
                       label="First name"
                       name="firstName"
                       autoFocus
+                      value={firstName}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={4}>
@@ -101,6 +123,7 @@ const UserProfile = () => {
                       label="Last name"
                       name="lastName"
                       autoFocus
+                      value={lastName}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={4}>
@@ -113,6 +136,8 @@ const UserProfile = () => {
                       label="Email"
                       name="email"
                       autoFocus
+                      value={email}
+                      disabled
                     />
                   </GridItem>
                 </GridContainer>
@@ -126,6 +151,7 @@ const UserProfile = () => {
                       label="Company"
                       name="company"
                       autoFocus
+                      value={company}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={4}>
@@ -133,7 +159,7 @@ const UserProfile = () => {
                       <KeyboardDatePicker
                         label="Birthday"
                         margin="normal"
-                        value={null}
+                        value={birthday}
                         fullWidth
                         allowKeyboardControl
                         animateYearScrolling
@@ -154,14 +180,15 @@ const UserProfile = () => {
                       fullWidth
                       margin="normal"
                       variant="outlined"
+                      value={gender}
                     >
-                      <MenuItem key={1} value={1}>
+                      <MenuItem key={1} value="Male">
                         Male
                       </MenuItem>
-                      <MenuItem key={2} value={2}>
+                      <MenuItem key={2} value="Female">
                         Female
                       </MenuItem>
-                      <MenuItem key={3} value={3}>
+                      <MenuItem key={3} value="Othe">
                         Others
                       </MenuItem>
                     </TextField>
@@ -180,6 +207,7 @@ const UserProfile = () => {
                       multiline
                       rows={2}
                       rowsMax={4}
+                      value={summary}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={4}>
@@ -209,6 +237,7 @@ const UserProfile = () => {
                 color="primary"
                 variant="contained"
                 startIcon={<SaveIcon />}
+                type="submit"
               >
                 Update Profile
               </Button>
@@ -239,7 +268,7 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default withUserProfileForm(UserProfile);
 
 const Wrapper = styled.div`
   margin-top: 50px;

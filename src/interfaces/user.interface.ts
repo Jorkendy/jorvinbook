@@ -1,7 +1,11 @@
 export interface User {
     firstName?: string;
     lastName?: string;
-    userId: string;
-    createdAt?: string;
-    email: string;
-}
+    email?: string;
+    updatedAt?: string;
+    company?: string;
+    birthday?: string;
+    gender?: "Male" | "Female" | "Other";
+    summary?: string;
+    avatarUrl?: string;
+  }

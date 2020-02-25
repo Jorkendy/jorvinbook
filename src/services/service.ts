@@ -4,6 +4,7 @@ import get from "lodash/get";
 import config from "../utils/config";
 import { SignUpUser } from "../interfaces/signUpUser.interface";
 import { BasicUser } from "../interfaces/basicUser.interface";
+import { User } from "../interfaces/user.interface";
 import { history } from "../App";
 import { Routes } from "../utils/routes";
 
@@ -59,7 +60,9 @@ const service = {
       headers: {
         "Content-Type": "multipart/form-data"
       }
-    })
+    }),
+  getProfile: () => Axios.get("/user"),
+  updateProfile: (detail: User) => Axios.patch("/user", detail)
 };
 
 export default service;
