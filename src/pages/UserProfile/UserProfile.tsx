@@ -1,12 +1,10 @@
-import React, { FC } from "react";
+import React, { FC, SyntheticEvent } from "react";
 import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider
-} from "@material-ui/pickers";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import MomentUtils from "@date-io/moment";
 import MenuItem from "@material-ui/core/MenuItem";
 import SaveIcon from "@material-ui/icons/Save";
@@ -21,16 +19,21 @@ import CardFooter from "../../components/Card/CardFooter";
 import CardAvatar from "../../components/Card/CardAvatar";
 import defaultAvatar from "../../assets/images/user.jpg";
 import { withUserProfileForm } from "./withUserProfile";
+import Spinner from "../../components/Spinner";
 
 export interface UserProfileProps {
+  isLoading: boolean;
   firstName: string | undefined;
   lastName: string | undefined;
   email: string | undefined;
   company: string | undefined;
-  birthday: string | undefined;
+  birthday: string | null;
   gender: string | undefined;
   summary: string | undefined;
   avatarUrl: string | undefined;
+  onDateChange: (date: MaterialUiPickersDate) => void;
+  onTextFieldChange: (event: SyntheticEvent) => void;
+  file: any
 }
 
 const useStyles = makeStyles(theme => ({
@@ -77,19 +80,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserProfile: FC<UserProfileProps> = ({
-  firstName = "",
-  lastName = "",
-  email = "",
-  company = "",
-  birthday = null,
-  gender = "",
-  summary = "",
-  avatarUrl = ""
+  firstName,
+  lastName,
+  email,
+  company,
+  birthday,
+  gender,
+  summary,
+  avatarUrl,
+  isLoading,
+  onDateChange,
+  onTextFieldChange,
+  file
 }) => {
   const classes = useStyles();
 
   return (
     <Wrapper>
+      {isLoading ? <Spinner /> : null}
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <Card>
@@ -111,6 +119,7 @@ const UserProfile: FC<UserProfileProps> = ({
                       name="firstName"
                       autoFocus
                       value={firstName}
+                      onChange={onTextFieldChange}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={4}>
@@ -124,6 +133,7 @@ const UserProfile: FC<UserProfileProps> = ({
                       name="lastName"
                       autoFocus
                       value={lastName}
+                      onChange={onTextFieldChange}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={4}>
@@ -152,23 +162,23 @@ const UserProfile: FC<UserProfileProps> = ({
                       name="company"
                       autoFocus
                       value={company}
+                      onChange={onTextFieldChange}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={4}>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <KeyboardDatePicker
+                      <DatePicker
                         label="Birthday"
                         margin="normal"
                         value={birthday}
                         fullWidth
-                        allowKeyboardControl
                         animateYearScrolling
-                        onChange={() => {}}
                         disableFuture
                         inputVariant="outlined"
                         clearable
                         placeholder="10/10/2018"
-                        format="MM/dd/yyyy"
+                        format="MM/DD/YYYY"
+                        onChange={onDateChange}
                       />
                     </MuiPickersUtilsProvider>
                   </GridItem>
@@ -181,6 +191,8 @@ const UserProfile: FC<UserProfileProps> = ({
                       margin="normal"
                       variant="outlined"
                       value={gender}
+                      onChange={onTextFieldChange}
+                      name="gender"
                     >
                       <MenuItem key={1} value="Male">
                         Male
@@ -200,25 +212,28 @@ const UserProfile: FC<UserProfileProps> = ({
                       variant="outlined"
                       margin="normal"
                       fullWidth
-                      id="sumamry"
+                      id="summary"
                       label="About me"
-                      name="sumamry"
+                      name="summary"
                       autoFocus
                       multiline
                       rows={2}
                       rowsMax={4}
                       value={summary}
+                      onChange={onTextFieldChange}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={4}>
                     <input
                       accept="image/*"
                       className={classes.input}
-                      id="avatar"
-                      multiple
+                      id="file"
                       type="file"
+                      name="file"
+                      value={file}
+                      onChange={onTextFieldChange}
                     />
-                    <label htmlFor="avatar">
+                    <label htmlFor="file">
                       <Button
                         variant="contained"
                         color="default"
