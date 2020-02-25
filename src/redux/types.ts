@@ -11,3 +11,7 @@ export const Verify = "Verify";
 export const VerifySuccess = "Verify success";
 export const VerifyFailure = "Verify failure";
 export const UpdateApp = "Update in app store";
+//Document
+export const Upload = "Upload";
+export const UploadSuccess = "Upload success";
+export const UploadFailure = "Upload failure";

@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import signUpReducer from "./reducers/signUp.reducer";
 import signInReducer from "./reducers/signIn.reducer";
 import appReducer from "./reducers/app.reducer";
+import documentReducer from "./reducers/document.reducer";
 
 const initialState = {};
 
@@ -12,7 +13,8 @@ const middleware = [thunk];
 const reducers = combineReducers({
   signUpReducer,
   signInReducer,
-  appReducer
+  appReducer,
+  documentReducer
 });
 
 const composeEnhancers =
@@ -27,7 +29,8 @@ const store = createStore(reducers, initialState, enhancer);
 export interface reducer {
   signUpReducer: any;
   signInReducer: any;
-  appReducer: any
+  appReducer: any;
+  documentReducer: any;
 }
 
 export default store;

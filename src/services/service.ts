@@ -53,7 +53,13 @@ const service = {
   clearToken: () => {
     localStorage.removeItem("token");
   },
-  verifyToken: () => Axios.get("/auth/verify")
+  verifyToken: () => Axios.get("/auth/verify"),
+  uploadFile: (formData: any) =>
+    Axios.post("/document/upload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    })
 };
 
 export default service;

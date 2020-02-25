@@ -20,7 +20,6 @@ import CardBody from "../../components/Card/CardBody";
 import CardFooter from "../../components/Card/CardFooter";
 import CardAvatar from "../../components/Card/CardAvatar";
 import defaultAvatar from "../../assets/images/user.jpg";
-import Editor from "../../components/Editor/Editor";
 
 const useStyles = makeStyles(theme => ({
   cardCategoryWhite: {
@@ -169,7 +168,21 @@ const UserProfile = () => {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={8}>
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      fullWidth
+                      id="sumamry"
+                      label="About me"
+                      name="sumamry"
+                      autoFocus
+                      multiline
+                      rows={2}
+                      rowsMax={4}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={4}>
                     <input
                       accept="image/*"
                       className={classes.input}
@@ -187,9 +200,6 @@ const UserProfile = () => {
                         Upload your avatar
                       </Button>
                     </label>
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <Editor />
                   </GridItem>
                 </GridContainer>
               </form>
