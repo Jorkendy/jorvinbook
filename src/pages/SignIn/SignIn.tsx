@@ -25,8 +25,7 @@ export interface SignInProps {
   errorMessage: string;
   navigateToSignUp: () => void;
   onChange: (event: SyntheticEvent) => void;
-  onSubmit: () => void;
-  onKeyDown: (event: SyntheticEvent) => void;
+  onSubmit: (event: SyntheticEvent) => void;
 }
 
 export const useStyles = makeStyles(theme => ({
@@ -62,8 +61,7 @@ const SignIn: FC<SignInProps> = ({
   errorMessage,
   onChange,
   navigateToSignUp,
-  onSubmit,
-  onKeyDown
+  onSubmit
 }) => {
   const classes = useStyles();
 
@@ -82,7 +80,7 @@ const SignIn: FC<SignInProps> = ({
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <div className={classes.form}>
+        <form className={classes.form} noValidate onSubmit={onSubmit} method="post">
           <TextField
             variant="outlined"
             margin="normal"
@@ -95,7 +93,6 @@ const SignIn: FC<SignInProps> = ({
             autoFocus
             value={email}
             onChange={onChange}
-            onKeyDown={onKeyDown}
           />
           <TextField
             variant="outlined"
@@ -109,13 +106,12 @@ const SignIn: FC<SignInProps> = ({
             autoComplete="current-password"
             value={password}
             onChange={onChange}
-            onKeyDown={onKeyDown}
           />
           {errorMessage ? (
             <FormHelperText error>{errorMessage}</FormHelperText>
           ) : null}
           <Button
-            type="button"
+            type="submit"
             fullWidth
             variant="contained"
             color="primary"
@@ -136,7 +132,7 @@ const SignIn: FC<SignInProps> = ({
               </Link>
             </Grid>
           </Grid>
-        </div>
+        </form>
       </Wrapper>
       <Box mt={8}>
         <Copyright />

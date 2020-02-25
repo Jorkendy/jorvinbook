@@ -27,12 +27,11 @@ export interface SignUpProps {
   password: string;
   onChange: (event: SyntheticEvent) => void;
   navigateToSignIn: () => void;
-  onSubmit: () => void;
+  onSubmit: (event: SyntheticEvent) => void;
   errorMessage: string;
   isLoading: boolean;
   open: boolean;
   onClose: () => void;
-  onKeyDown: (event: SyntheticEvent) => void
 }
 
 const SignUp: FC<SignUpProps> = ({
@@ -46,8 +45,7 @@ const SignUp: FC<SignUpProps> = ({
   errorMessage,
   isLoading,
   open,
-  onClose,
-  onKeyDown
+  onClose
 }) => {
   const classes = useStyles();
 
@@ -67,7 +65,7 @@ const SignUp: FC<SignUpProps> = ({
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate onSubmit={onSubmit}>
+        <form className={classes.form} noValidate onSubmit={onSubmit} method="post">
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -81,7 +79,6 @@ const SignUp: FC<SignUpProps> = ({
                 autoFocus
                 value={firstName}
                 onChange={onChange}
-                onKeyDown={onKeyDown}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -95,7 +92,6 @@ const SignUp: FC<SignUpProps> = ({
                 autoComplete="lname"
                 value={lastName}
                 onChange={onChange}
-                onKeyDown={onKeyDown}
               />
             </Grid>
             <Grid item xs={12}>
@@ -109,22 +105,17 @@ const SignUp: FC<SignUpProps> = ({
                 autoComplete="email"
                 value={email}
                 onChange={onChange}
-                onKeyDown={onKeyDown}
               />
             </Grid>
             <Grid item xs={12}>
-              <PasswordInput
-                password={password}
-                onChange={onChange}
-                onKeyDown={onKeyDown}
-              />
+              <PasswordInput password={password} onChange={onChange} />
             </Grid>
           </Grid>
           {errorMessage ? (
             <FormHelperText error>{errorMessage}</FormHelperText>
           ) : null}
           <Button
-            type="button"
+            type="submit"
             fullWidth
             variant="contained"
             color="primary"

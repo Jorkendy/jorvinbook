@@ -62,7 +62,10 @@ export const withSignInForm = (WrappedComponent: FC<SignInProps>) => {
       return isEmailValid && isPasswordValid;
     };
 
-    const _onSubmit = () => {
+    const _onSubmit = (event: SyntheticEvent) => {
+      if (event) {
+        event.preventDefault();
+      }
       if (!_validateForm()) {
         setErrorMessage("Please fill all field with valid data");
         return;
@@ -73,15 +76,8 @@ export const withSignInForm = (WrappedComponent: FC<SignInProps>) => {
             setErrorMessage(response.errorMessage);
             return;
           }
-          history.push(Routes.Home);
+          history.push(Routes.Home)
         });
-      }
-    };
-
-    const _onKeyDown = (event: SyntheticEvent) => {
-      const isEnterKey = parseInt(get(event, "keyCode", 0), 10) === 13;
-      if (isEnterKey) {
-        _onSubmit()
       }
     };
 
@@ -92,7 +88,6 @@ export const withSignInForm = (WrappedComponent: FC<SignInProps>) => {
         onChange={_onFormChange}
         navigateToSignUp={_navigateToSignUp}
         onSubmit={_onSubmit}
-        onKeyDown={_onKeyDown}
         errorMessage={errorMessage}
         isLoading={isLoading}
       />
