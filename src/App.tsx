@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, Suspense } from "react";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { ThemeOptions } from "@material-ui/core/styles/createMuiTheme";
 import { Router, Route, Switch } from "react-router-dom";
@@ -26,20 +26,22 @@ export const history = createBrowserHistory();
 
 const App: FC<AppProps> = ({ isLoading, isAuthenticated }) => {
   return (
-    <ThemeProvider theme={theme}>
-      {isLoading ? <Spinner /> : null}
-      <Router history={history}>
-        <Switch>
-          <Route exact path={Routes.SignIn} component={SignIn} />
-          <Route exact path={Routes.SignUp} component={SignUp} />
-          <Container>
-            <Header />
-            <Route exact path={Routes.Home} component={Home} />
-            <AuthRoute exact path={Routes.Profile} component={UserProfile} />
-          </Container>
-        </Switch>
-      </Router>
-    </ThemeProvider>
+    <Suspense fallback={<Spinner />}>
+      <ThemeProvider theme={theme}>
+        {isLoading ? <Spinner /> : null}
+        <Router history={history}>
+          <Switch>
+            <Route exact path={Routes.SignIn} component={SignIn} />
+            <Route exact path={Routes.SignUp} component={SignUp} />
+            <Container>
+              <Header />
+              <Route exact path={Routes.Home} component={Home} />
+              <AuthRoute exact path={Routes.Profile} component={UserProfile} />
+            </Container>
+          </Switch>
+        </Router>
+      </ThemeProvider>
+    </Suspense>
   );
 };
 
